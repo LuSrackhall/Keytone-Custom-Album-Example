@@ -4,6 +4,7 @@
 // 3. 复制转换后的结果到键音专辑的配置文件中
 
 import { nanoid } from "nanoid";
+import { writeFileSync, mkdirSync, existsSync } from "fs";
 
 // 配置参数
 const config = {
@@ -217,11 +218,28 @@ function convert(input) {
   const stage1Result = convertStage1(input);
   const stage2Result = convertStage2(input, stage1Result);
 
+  // 控制台输出
   console.log("Stage 1 Result:");
   console.log(JSON.stringify(stage1Result, null, 2));
 
   console.log("\nStage 2 Result:");
   console.log(JSON.stringify(stage2Result, null, 2));
+
+  // 保存到临时文件
+  // 创建临时文件夹（如果不存在）
+  if (!existsSync("./temp")) {
+    mkdirSync("./temp");
+  }
+
+  // 写入 Stage 1 结果
+  writeFileSync("./temp/stage1_result.json", JSON.stringify(stage1Result, null, 2), "utf8");
+
+  // 写入 Stage 2 结果
+  writeFileSync("./temp/stage2_result.json", JSON.stringify(stage2Result, null, 2), "utf8");
+
+  console.log("\n结果已保存到:");
+  console.log("- Stage 1: ./temp/stage1_result.json");
+  console.log("- Stage 2: ./temp/stage2_result.json");
 }
 
 // 运行转换
