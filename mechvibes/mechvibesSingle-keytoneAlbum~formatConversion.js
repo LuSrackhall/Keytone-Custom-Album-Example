@@ -19,8 +19,8 @@ function convertStage1(input) {
 
   Object.entries(input).forEach(([key, [startTime, duration]]) => {
     // 为每个按键创建down和up两个事件
-    const downId = nanoid();
-    const upId = nanoid();
+    const downId = nanoid().toLowerCase();
+    const upId = nanoid().toLowerCase();
     const middleTime = startTime + duration / 2;
 
     // 添加down事件
